@@ -1,9 +1,18 @@
 # Homelab
 This is my homelab setup
 
-## Setup 
+# Setup 
 
-The first thing you will need to do is setup dynamic DNS on the server for a consistent SSH hostname.
+
+## Local Network
+- Set a static LAN IP (DHCP reservation) on  router
+- Assign homelab MAC address to a fixed IP
+- Install and configure SSH on homelab
+- Install `openssh-server`
+- Forward external port (I used 2222) → internal port 22 (SSH port) on router
+
+
+For external network SSH access, you will also need to setup dynamic DNS on the server for a consistent SSH hostname.
 
 I used [DuckDNS](https://www.duckdns.org/)
 
@@ -16,9 +25,14 @@ cd homelab
 touch token.txt
 ```
 
-Put your token as the only ocntent of `token.txt`
+Put your token as the only content of `token.txt`
 
 You can test that is is working by `./duck.sh` and check the `duck.log` file in this directory.
 
 You will have to configure this `duck.sh` file to run automatically every so often. You can set this up automatically by running `./setup-cron.sh`
 
+If done correctly, you should be able to SSH into the homelab with
+
+```bash
+ssh -p [PORT] [USER]@[SUBDOMAIN].duckdns.org
+```
