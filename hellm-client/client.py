@@ -2,35 +2,10 @@
 import shutil
 import json
 
-from enum import Enum
+from enum import Enum, StrEnum, auto
 from typing import Dict, List, Literal
 
 
-# context=$(cat <<'EOF'
-# {
-#     "messages": [
-#         {"role": "user", "content": "Hello, how are you?"},
-#         {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
-#         {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
-#     ]
-# }
-# EOF
-# )
-
-# type should mirror above bash
-Context = List[Dict[Literal["role", "content"], str]] 
-messages: Context = {
-    "messages": [
-        {"role": "user", "content": "Hello, how are you?"},
-        {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
-        {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
-    ]
-}
-
-json_str = json.dumps(messages)
-
-
-print(json_str)
 
 class Justify(Enum):
     LEFT = 1
@@ -66,6 +41,46 @@ def print_message(text: str, align: Justify):
             
             
     print(formatted_str)
+
+
+
+
+Context = List[Dict[Literal["role", "content"], str]] 
+
+ctx: Context = {
+    "messages": [
+        {"role": "user", "content": "Hello, how are you?"},
+        {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
+        {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
+    ]
+}
+
+
+class Role(StrEnum):
+    USER = auto()
+    ASSISTANT = auto()
+    
+
+def append_message(role: Role, msg: str):
+    global ctx
+    
+    
+    message = {
+        "role": role.value,
+        "content": msg
+    }
+    
+    ctx["messages"].append(message)
+    
+
+
+print(json.dumps(ctx))
+print()
+print()
+
+append_message(Role.ASSISTANT, "it is cloudy")
+print(json.dumps(ctx))
+
 
 
 # lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
