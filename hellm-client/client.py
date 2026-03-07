@@ -52,6 +52,10 @@ Message = Dict[Literal["role", "content"], str]
 
 Context = List[Message] 
 
+EMPTY_CONTEXT: Context = {
+    "messages": []
+}
+
 
 class Role(StrEnum):
     USER = auto()
@@ -69,7 +73,7 @@ def build_msg(role: Role, txt: str) -> Message:
 
 
 
-def append_message(ctx: Context, msg: Message) -> Context:
+def append_msg(ctx: Context, msg: Message) -> Context:
     
     ctx["messages"].append(msg)
     
@@ -78,23 +82,21 @@ def append_message(ctx: Context, msg: Message) -> Context:
 
 def main() -> None:
     
-    ctx: Context = {
-        "messages": []
-    }
+    ctx: Context = EMPTY_CONTEXT.copy()
 
     print(json.dumps(ctx))
     print()
     print()
 
-    ctx = append_message(ctx, build_msg(Role.USER, "How is the weather?"))
-    ctx = append_message(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
-    ctx = append_message(ctx, build_msg(Role.USER, "What was my first message?"))
+    ctx = append_msg(ctx, build_msg(Role.USER, "How is the weather?"))
+    ctx = append_msg(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
+    ctx = append_msg(ctx, build_msg(Role.USER, "What was my first message?"))
     
     
     server_reply = run("HELLM", json.dumps(ctx))
     
     response: Message = json.loads(server_reply)
-    append_message(ctx, response)
+    append_msg(ctx, response)
     
     print(json.dumps(ctx))
 
