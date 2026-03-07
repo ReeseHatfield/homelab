@@ -1,10 +1,10 @@
 
 import shutil
 import json
+import subprocess
 
 from enum import Enum, StrEnum, auto
 from typing import Dict, List, Literal
-
 
 
 class Justify(Enum):
@@ -65,18 +65,10 @@ def append_message(ctx: Context, role: Role, msg: str) -> Context:
     return ctx
 
 
-
-
-
-
 def main() -> None:
     
     ctx: Context = {
-        "messages": [
-            {"role": "user", "content": "Hello, how are you?"},
-            {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
-            {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
-        ]
+        "messages": []
     }
 
     
@@ -84,8 +76,20 @@ def main() -> None:
     print()
     print()
 
+    ctx = append_message(ctx, Role.USER, "How is the weather?")
     ctx = append_message(ctx, Role.ASSISTANT, "it is cloudy")
-    print(json.dumps(ctx))
+    ctx = append_message(ctx, Role.USER, "Give me an approximation for the square root of 2")
+    # super cursed, will eventually be an ssh call
+    result = subprocess.run(
+        ["sudo", "python3", "../hellm-server/server.py"],
+        input=json.dumps(ctx),
+        capture_output=True,
+        text=True,
+        check=True
+    )
+    
+    print("result stdout was:")
+    print(result.stdout)
 
 
 if __name__ == "__main__":
