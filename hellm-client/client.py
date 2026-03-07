@@ -2,10 +2,15 @@
 import shutil
 import json
 import subprocess
+import sys
 
 from enum import Enum, StrEnum, auto
 from typing import Dict, List, Literal
+from pathlib import Path
 
+
+sys.path.append(str(Path(__file__).resolve().parent.parent / "ssh-as-rpc"))
+from ssh_rpc import run
 
 class Justify(Enum):
     LEFT = 1
@@ -92,15 +97,17 @@ def main() -> None:
     ctx = append_message(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
     ctx = append_message(ctx, build_msg(Role.USER, "What was my first message?"))
     
-    result = subprocess.run(
-        ["ssh", "-p", f"{ssh_port}", f"{user}@{duck_dns_subdomain}.duckdns.org", f"python3 {server_path}"],
-        input=json.dumps(ctx),
-        capture_output=True,
-        text=True,
-        check=True
-    )
+    # result = subprocess.run(
+    #     ["ssh", "-p", f"{ssh_port}", f"{user}@{duck_dns_subdomain}.duckdns.org", f"python3 {server_path}"],
+    #     input=json.dumps(ctx),
+    #     capture_output=True,
+    #     text=True,
+    #     check=True
+    # )
     
-    response: Message = json.loads(result.stdout)
+    stdout = run("HELLM", json.dumps(ctx))
+    
+    response: Message = json.loads(stdout)
     append_message(ctx, response)
     
     print(json.dumps(ctx))
