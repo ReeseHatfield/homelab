@@ -55,7 +55,6 @@ class Role(StrEnum):
 
 def append_message(ctx: Context, role: Role, msg: str) -> Context:
     
-    
     message = {
         "role": role.value,
         "content": msg
@@ -63,27 +62,33 @@ def append_message(ctx: Context, role: Role, msg: str) -> Context:
     
     ctx["messages"].append(message)
     
-    
     return ctx
 
 
 
-ctx: Context = {
-    "messages": [
-        {"role": "user", "content": "Hello, how are you?"},
-        {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
-        {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
-    ]
-}
-
-print(json.dumps(ctx))
-print()
-print()
-
-ctx = append_message(ctx, Role.ASSISTANT, "it is cloudy")
-print(json.dumps(ctx))
 
 
 
+def main() -> None:
+    
+    ctx: Context = {
+        "messages": [
+            {"role": "user", "content": "Hello, how are you?"},
+            {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
+            {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
+        ]
+    }
+
+    
+    print(json.dumps(ctx))
+    print()
+    print()
+
+    ctx = append_message(ctx, Role.ASSISTANT, "it is cloudy")
+    print(json.dumps(ctx))
+
+
+if __name__ == "__main__":
+    main()
 # lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 # print_message(lorem, align=Justify.LEFT)
