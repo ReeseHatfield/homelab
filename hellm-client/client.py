@@ -43,24 +43,30 @@ def print_message(text: str, align: Justify):
     print(formatted_str)
 
 
+Message = Dict[Literal["role", "content"], str]
 
-
-Context = List[Dict[Literal["role", "content"], str]] 
+Context = List[Message] 
 
 
 class Role(StrEnum):
     USER = auto()
     ASSISTANT = auto()
     
-
-def append_message(ctx: Context, role: Role, msg: str) -> Context:
     
-    message = {
+
+def build_msg(role: Role, txt: str) -> Message:
+    message: Message = {
         "role": role.value,
-        "content": msg
+        "content": txt
     }
     
-    ctx["messages"].append(message)
+    return message
+
+
+
+def append_message(ctx: Context, msg: Message) -> Context:
+    
+    ctx["messages"].append(msg)
     
     return ctx
 
@@ -76,9 +82,9 @@ def main() -> None:
     print()
     print()
 
-    ctx = append_message(ctx, Role.USER, "How is the weather?")
-    ctx = append_message(ctx, Role.ASSISTANT, "it is cloudy")
-    ctx = append_message(ctx, Role.USER, "Give me an approximation for the square root of 2")
+    ctx = append_message(ctx, build_msg(Role.USER, "How is the weather?"))
+    ctx = append_message(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
+    ctx = append_message(ctx, build_msg(Role.USER, "Give me an approximation for the square root of 2"))
     # super cursed, will eventually be an ssh call
     result = subprocess.run(
         ["sudo", "python3", "../hellm-server/server.py"],
@@ -88,8 +94,10 @@ def main() -> None:
         check=True
     )
     
-    print("result stdout was:")
-    print(result.stdout)
+    response: Message = json.loads(result.stdout)
+    append_message(ctx, response)
+    
+    print(json.dumps(ctx))
 
 
 if __name__ == "__main__":
