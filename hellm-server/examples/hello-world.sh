@@ -4,4 +4,4 @@
 
 echo "Running ollama hello world example"
 
-echo '{"messages":[{"role":"user","content":"hello"}]}' | python3 server.py
+echo '{"messages":[{"role":"user","content":"hello"}]}' | python3 ../server.py

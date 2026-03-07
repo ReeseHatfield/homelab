@@ -15,4 +15,4 @@ context=$(cat <<'EOF'
 EOF
 )
 
-echo $context | python3 server.py 
+echo $context | python3 ../server.py 

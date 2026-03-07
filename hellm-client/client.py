@@ -77,6 +77,11 @@ def main() -> None:
         "messages": []
     }
 
+    # todo move to config file
+    user = "reesehatfield"
+    duck_dns_subdomain = "reese-lab"
+    server_path = "~/homelab/hellm-server/server.py"
+    # (on homelab)
     
     print(json.dumps(ctx))
     print()
@@ -84,10 +89,11 @@ def main() -> None:
 
     ctx = append_message(ctx, build_msg(Role.USER, "How is the weather?"))
     ctx = append_message(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
-    ctx = append_message(ctx, build_msg(Role.USER, "Give me an approximation for the square root of 2"))
+    ctx = append_message(ctx, build_msg(Role.USER, "What was my first message?"))
     # super cursed, will eventually be an ssh call
+    
     result = subprocess.run(
-        ["sudo", "python3", "../hellm-server/server.py"],
+        ["ssh", "-p", "2222", f"{user}@{duck_dns_subdomain}.duckdns.org", f"python3 {server_path}"],
         input=json.dumps(ctx),
         capture_output=True,
         text=True,
