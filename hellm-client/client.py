@@ -8,7 +8,7 @@ from enum import Enum, StrEnum, auto
 from typing import Dict, List, Literal
 from pathlib import Path
 
-
+# I dont wanna import this as a module bc this should exist as a separate script for now
 sys.path.append(str(Path(__file__).resolve().parent.parent / "ssh-as-rpc"))
 from ssh_rpc import run
 
@@ -82,13 +82,6 @@ def main() -> None:
         "messages": []
     }
 
-    # todo move to config file
-    user = "reesehatfield"
-    duck_dns_subdomain = "reese-lab"
-    server_path = "~/homelab/hellm-server/server.py"
-    # (on homelab)
-    ssh_port = 2222
-    
     print(json.dumps(ctx))
     print()
     print()
@@ -97,17 +90,10 @@ def main() -> None:
     ctx = append_message(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
     ctx = append_message(ctx, build_msg(Role.USER, "What was my first message?"))
     
-    # result = subprocess.run(
-    #     ["ssh", "-p", f"{ssh_port}", f"{user}@{duck_dns_subdomain}.duckdns.org", f"python3 {server_path}"],
-    #     input=json.dumps(ctx),
-    #     capture_output=True,
-    #     text=True,
-    #     check=True
-    # )
     
-    stdout = run("HELLM", json.dumps(ctx))
+    server_reply = run("HELLM", json.dumps(ctx))
     
-    response: Message = json.loads(stdout)
+    response: Message = json.loads(server_reply)
     append_message(ctx, response)
     
     print(json.dumps(ctx))
@@ -115,5 +101,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-# lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-# print_message(lorem, align=Justify.LEFT)
