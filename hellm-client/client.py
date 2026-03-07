@@ -47,22 +47,13 @@ def print_message(text: str, align: Justify):
 
 Context = List[Dict[Literal["role", "content"], str]] 
 
-ctx: Context = {
-    "messages": [
-        {"role": "user", "content": "Hello, how are you?"},
-        {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
-        {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
-    ]
-}
-
 
 class Role(StrEnum):
     USER = auto()
     ASSISTANT = auto()
     
 
-def append_message(role: Role, msg: str):
-    global ctx
+def append_message(ctx: Context, role: Role, msg: str) -> Context:
     
     
     message = {
@@ -72,13 +63,24 @@ def append_message(role: Role, msg: str):
     
     ctx["messages"].append(message)
     
+    
+    return ctx
 
+
+
+ctx: Context = {
+    "messages": [
+        {"role": "user", "content": "Hello, how are you?"},
+        {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
+        {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
+    ]
+}
 
 print(json.dumps(ctx))
 print()
 print()
 
-append_message(Role.ASSISTANT, "it is cloudy")
+ctx = append_message(ctx, Role.ASSISTANT, "it is cloudy")
 print(json.dumps(ctx))
 
 
