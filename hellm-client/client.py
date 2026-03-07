@@ -82,6 +82,7 @@ def main() -> None:
     duck_dns_subdomain = "reese-lab"
     server_path = "~/homelab/hellm-server/server.py"
     # (on homelab)
+    ssh_port = 2222
     
     print(json.dumps(ctx))
     print()
@@ -90,10 +91,9 @@ def main() -> None:
     ctx = append_message(ctx, build_msg(Role.USER, "How is the weather?"))
     ctx = append_message(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
     ctx = append_message(ctx, build_msg(Role.USER, "What was my first message?"))
-    # super cursed, will eventually be an ssh call
     
     result = subprocess.run(
-        ["ssh", "-p", "2222", f"{user}@{duck_dns_subdomain}.duckdns.org", f"python3 {server_path}"],
+        ["ssh", "-p", f"{ssh_port}", f"{user}@{duck_dns_subdomain}.duckdns.org", f"python3 {server_path}"],
         input=json.dumps(ctx),
         capture_output=True,
         text=True,

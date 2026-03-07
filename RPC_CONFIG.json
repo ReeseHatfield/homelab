@@ -1,0 +1,10 @@
+{
+    "USER": "reesehatfield",
+    "DUCK_DNS_SUBDOMAIN": "reese-lab",
+    "SSH_PORT": "2222",
+    "FUNCS": {
+        "HELLM": {
+            "COMMAND": "python3 ~/homelab/hellm-server/server.py"
+        }
+    }
+}
