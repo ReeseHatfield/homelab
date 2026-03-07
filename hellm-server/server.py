@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env python3
 import sys
 import json
@@ -41,7 +39,6 @@ r = requests.post(
 
 resp = r.json()
 
-print(resp)
 
 sys.stdout.write(json.dumps(resp["message"]) + "\n")
 sys.stdout.flush()
