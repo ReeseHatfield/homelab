@@ -1,10 +1,36 @@
-# 
 
 import shutil
-
-
+import json
 
 from enum import Enum
+from typing import Dict, List, Literal
+
+
+# context=$(cat <<'EOF'
+# {
+#     "messages": [
+#         {"role": "user", "content": "Hello, how are you?"},
+#         {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
+#         {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
+#     ]
+# }
+# EOF
+# )
+
+# type should mirror above bash
+Context = List[Dict[Literal["role", "content"], str]] 
+messages: Context = {
+    "messages": [
+        {"role": "user", "content": "Hello, how are you?"},
+        {"role": "assistant", "content": "I am well, thank you! How can I help you today?"},
+        {"role": "user", "content": "What's the weather like in Fairborn, OH?"}
+    ]
+}
+
+json_str = json.dumps(messages)
+
+
+print(json_str)
 
 class Justify(Enum):
     LEFT = 1
@@ -42,5 +68,5 @@ def print_message(text: str, align: Justify):
     print(formatted_str)
 
 
-lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-print_message(lorem, align=Justify.LEFT)
+# lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+# print_message(lorem, align=Justify.LEFT)
