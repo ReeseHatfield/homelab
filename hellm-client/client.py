@@ -15,38 +15,38 @@ from ssh_rpc import run
 class Justify(Enum):
     LEFT = 1
     RIGHT = 2
-
 def print_message(text: str, align: Justify):
-    
-    
     width, _ = shutil.get_terminal_size()
 
     formatted_str = ""
     counter = 0
     cur_row = ""
-        
+
     for c in text:
-        
         cur_row += c
         counter += 1
-        
+
         if counter > width / 2:
             counter = 0
-            
+
             if align == Justify.LEFT:
                 cur_row = cur_row.rjust(width, ' ')
             elif align == Justify.RIGHT:
                 cur_row = cur_row.ljust(width, ' ')
-                
-                
-            cur_row += '\n'        
-            
-            formatted_str += cur_row
-            cur_row = ""
-            
-            
-    print(formatted_str)
 
+            formatted_str += cur_row + "\n"
+            cur_row = ""
+
+    # basically a line flush 
+    if cur_row:
+        if align == Justify.LEFT:
+            cur_row = cur_row.rjust(width, ' ')
+        elif align == Justify.RIGHT:
+            cur_row = cur_row.ljust(width, ' ')
+
+        formatted_str += cur_row + "\n"
+
+    print(formatted_str)
 
 Message = Dict[Literal["role", "content"], str]
 
@@ -79,26 +79,35 @@ def append_msg(ctx: Context, msg: Message) -> Context:
     
     return ctx
 
-
 def main() -> None:
     
     ctx: Context = EMPTY_CONTEXT.copy()
 
-    print(json.dumps(ctx))
-    print()
-    print()
+    user_input = None
+    while(user_input != "exit"):
+        
+        user_input = input("> ")
+        ctx = append_msg(ctx, build_msg(Role.USER, user_input))
+        # print(ctx)
 
-    ctx = append_msg(ctx, build_msg(Role.USER, "How is the weather?"))
-    ctx = append_msg(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
-    ctx = append_msg(ctx, build_msg(Role.USER, "What was my first message?"))
+        server_reply = run("HELLM", json.dumps(ctx))
+        response: Message = json.loads(server_reply)
+        ctx = append_msg(ctx, response)
+        print_message("LLM: " + response['content'], Justify.LEFT)
+        
+        # print(ctx)
+
+        
+        
+        # ctx = append_msg(ctx, build_msg(Role.USER, "How is the weather?"))
+        # ctx = append_msg(ctx, build_msg(Role.ASSISTANT, "it is cloudy"))
+        # ctx = append_msg(ctx, build_msg(Role.USER, "What was my first message?"))
+        
+        
     
     
-    server_reply = run("HELLM", json.dumps(ctx))
-    
-    response: Message = json.loads(server_reply)
-    append_msg(ctx, response)
-    
-    print(json.dumps(ctx))
+    # print(json.dumps(ctx))
+
 
 
 if __name__ == "__main__":
