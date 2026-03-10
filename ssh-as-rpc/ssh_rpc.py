@@ -19,8 +19,8 @@ def run(rpc_func: str, rpc_input):
     result = subprocess.run(
         [
             "ssh",
-            "-p",
-            f"{CONF['SSH_PORT']}",
+            "-p", f"{CONF['SSH_PORT']}",
+            "-i", f"{CONF['SSH_KEY_PATH']}",
             f"{CONF['USER']}@{CONF['DUCK_DNS_SUBDOMAIN']}.duckdns.org",
             CONF["FUNCS"][rpc_func]["COMMAND"],
         ],

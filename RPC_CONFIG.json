@@ -2,6 +2,7 @@
     "USER": "reesehatfield",
     "DUCK_DNS_SUBDOMAIN": "reese-lab",
     "SSH_PORT": "2222",
+    "SSH_KEY_PATH": "~/.ssh/homelab-rpc",
     "FUNCS": {
         "HELLM": {
             "COMMAND": "python3 ~/homelab/hellm-server/server.py"

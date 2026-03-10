@@ -79,6 +79,9 @@ def append_msg(ctx: Context, msg: Message) -> Context:
     
     return ctx
 
+
+# todo document ssh key auth to prevent password prompting
+
 def main() -> None:
     
     ctx: Context = EMPTY_CONTEXT.copy()
