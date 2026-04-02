@@ -6,6 +6,9 @@
     "FUNCS": {
         "HELLM": {
             "COMMAND": "python3 ~/homelab/hellm-server/server.py"
+        },
+        "RNG": {
+            "COMMAND": "python3 ~/homelab/rng/rng.py"
         }
     }
 }

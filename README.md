@@ -3,7 +3,6 @@ This is my homelab setup
 
 # Setup 
 
-
 ## Local Network
 - Set a static LAN IP (DHCP reservation) on  router
 - Assign homelab MAC address to a fixed IP
@@ -36,3 +35,12 @@ If done correctly, you should be able to SSH into the homelab with
 ```bash
 ssh -p [PORT] [USER]@[SUBDOMAIN].duckdns.org
 ```
+
+## HELLM
+Homelab Enabled LLM
+
+- Ollama wrapper via custom SSH RPC
+```bash 
+python3 hellm-client/client.py
+```
+Will provide a chat interface, with all computation offloaded to the server
