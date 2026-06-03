@@ -36,6 +36,12 @@ If done correctly, you should be able to SSH into the homelab with
 ssh -p [PORT] [USER]@[SUBDOMAIN].duckdns.org
 ```
 
+## RDP
+For full RDP desktop access (my homelab ships gnome <3), you'll need to setup Remmina.
+You'll to install `remmina` and `xrdp`
+Assuming all the keys are in the right places, run the `rdp/setup-remmina.sh`.
+Once that is working, you can RDP in via `./rdp/rdp.sh`.
+
 ## HELLM
 Homelab Enabled LLM
 
