@@ -2,7 +2,6 @@
 
 DUCK="$(pwd)/duck.sh"
 
-
 if [ ! -f "$DUCK" ]; then
 
     echo "could not find duck.sh in cwd"
