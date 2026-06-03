@@ -9,7 +9,7 @@ if [ ! -f "$DUCK" ]; then
 fi
 
 
-(crontab -l 2>/dev/null; echo "*/5 * * * * $DUCK >/dev/null 2>&1") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot $DUCK >/dev/null 2>&1") | crontab -
 
 echo "Installed new cron job"
 echo "Will update duckdns ip every 5 minutes"
