@@ -42,6 +42,8 @@ You'll to install `remmina` and `xrdp`
 Assuming all the keys are in the right places, run the `rdp/setup-remmina.sh`.
 Once that is working, you can RDP in via `./rdp/rdp.sh`.
 
+Make sure you have the ssh private key as `$HOME/.ssh/homelab-rpc`
+
 ## HELLM
 Homelab Enabled LLM
 
