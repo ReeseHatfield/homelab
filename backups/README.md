@@ -23,11 +23,22 @@ UUID=[...] /mnt/backup-ssd ext4 defaults 0 2
 Link `vault-backup.sh` to the `$PATH`
 ```bash
 chmod +x backups/backup-vault.sh
-sudo ln -s $(pwd)/backups/backup-vault.sh /usr/local/bin/backup-vault.sh
+sudo ln -s $(pwd)/backups/backup-vault.sh /usr/local/bin/backup-vault
+```
+
+You will also need to own the mountpoint:
+```bash
+sudo chown -R $USER:$USER /mnt/backup-ssd
 ```
 
 Have a CRON job back up periodically (I do 1st of the month, at like 3:00am).
 
 ```bash
-0 3 1 * * /usr/local/bin/backup-vault.sh >/dev/null 2>&1
+(crontab -l 2>/dev/null; echo "0 3 1 * * /usr/local/bin/backup-vault >/dev/null 2>&1") | crontab -
+```
+
+## Recovery:
+To pull, you'll need to uncompress the tarball with tar + zstd
+```bash
+tar --zstd -xvf vault-backup-DATE.tar.zst
 ```
