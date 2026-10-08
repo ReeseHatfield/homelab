@@ -34,7 +34,7 @@ sudo chown -R $USER:$USER /mnt/backup-ssd
 Have a CRON job back up periodically (I do 1st of the month, at like 3:00am).
 
 ```bash
-(crontab -l 2>/dev/null; echo "0 3 1 * * /usr/local/bin/backup-vault >/dev/null 2>&1") | crontab -
+(crontab -l 2>/dev/null; echo "0 3 1 * * /usr/local/bin/backup-vault >> /home/rhatfield/forge/homelab/backup.log 2>&1") | crontab -
 ```
 
 ## Recovery:
